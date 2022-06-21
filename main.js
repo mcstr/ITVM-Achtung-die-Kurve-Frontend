@@ -43,3 +43,24 @@ function calculateNextPosition(positionX, positionY, direction, distance) {
     let y1 = positionY + distance * Math.sin(direction * Math.PI / 180);
     return { x1, y1};
 }
+
+class Socket {
+
+    constructor (url) {
+        this.socket = new WebSocket('ws://10.62.142.87:8080/event-emitter');
+
+    }    
+
+    init() {
+        this.socket.addEventListener('open', (e) =>{
+            this.socket.send('Hello Server');
+        }) 
+        this.socket.addEventListener('message', function (e){
+            console.log(e.data);
+        })
+    }
+
+    updatePosition(x, y) {
+        this.socket.send(x + '\n' + y);
+    }
+}
